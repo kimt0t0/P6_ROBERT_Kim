@@ -1,0 +1,27 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "Backend du projet 6 HotTakes de la formation Developpeur Web chez OpenClassrooms",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kimt0t0/P6_ROBERT_Kim.git"
+  },
+  "keywords": [
+    "backend",
+    "openclassrooms",
+    "hot",
+    "takes",
+    "javascript",
+    "node"
+  ],
+  "author": "Kim ROBERT",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kimt0t0/P6_ROBERT_Kim/issues"
+  },
+  "homepage": "https://github.com/kimt0t0/P6_ROBERT_Kim#readme"
+}
