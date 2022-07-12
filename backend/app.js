@@ -5,10 +5,16 @@ const express = require('express');
 const mongoose = require('mongoose');
 const path = require('path');
 
+const userRoutes = require('./routes/user');
+const User = require('./models/user');
+
 const app = express();
 
+/* ENREGISTREMENT DU ROUTEUR */
+app.use('/api/user', userRoutes);
+
 /* CONNEXION MONGODB */
-mongoose.connect('mongodb+srv://kimt0t0:<'BdmNH6SUZFIkVT0u'>@cluster0.omuvgnu.mongodb.net/?retryWrites=true&w=majority',
+mongoose.connect('mongodb+srv://kimt0t0:<BdmNH6SUZFIkVT0u>@cluster0.omuvgnu.mongodb.net/?retryWrites=true&w=majority',
   { useNewUrlParser: true,
     useUnifiedTopology: true 
     })
