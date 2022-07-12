@@ -1,5 +1,6 @@
 "use strict";
 
+// Ecriture serveur et appel à l'app
 var http = require('http');
 
 var app = require('./app');
