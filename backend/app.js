@@ -2,7 +2,7 @@ const express = require('express');
 
 const app = express();
 
-app.uste((req, res) => {
+app.use((req, res) => {
     res.json({ message: 'Votre requête a bien été reçue !' });
 });
 

@@ -3,7 +3,7 @@
 var express = require('express');
 
 var app = express();
-app.uste(function (req, res) {
+app.use(function (req, res) {
   res.json({
     message: 'Votre requête a bien été reçue !'
   });
