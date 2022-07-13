@@ -11,7 +11,7 @@ var path = require('path');
 
 var userRoutes = require('./routes/user');
 
-var User = require('./models/user');
+var User = require('./models/User');
 
 var app = express();
 /* ENREGISTREMENT DU ROUTEUR */

@@ -6,7 +6,7 @@ const mongoose = require('mongoose');
 const path = require('path');
 
 const userRoutes = require('./routes/user');
-const User = require('./models/user');
+const User = require('./models/User');
 
 const app = express();
 

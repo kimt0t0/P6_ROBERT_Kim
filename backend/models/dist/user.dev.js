@@ -3,6 +3,8 @@
 /* *** MODÈLE *** */
 var mongoose = require('mongoose');
 
+var uniqueValidator = require('mongoose-unique-validator');
+
 var userSchema = mongoose.Schema({
   email: {
     type: String,
@@ -14,5 +16,6 @@ var userSchema = mongoose.Schema({
     required: true
   }
 });
+userSchema.plugin(uniqueValidator);
 module.exports = mongoose.model('User', userSchema);
-//# sourceMappingURL=user.dev.js.map
+//# sourceMappingURL=User.dev.js.map
