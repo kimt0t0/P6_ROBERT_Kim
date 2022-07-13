@@ -11,15 +11,25 @@ var path = require('path');
 
 var userRoutes = require('./routes/user');
 
+var saucesRoutes = require('./routes/sauce');
+
 var User = require('./models/User');
 
-var app = express();
-/* ENREGISTREMENT DU ROUTEUR */
+var Sauce = require('./models/Sauce');
 
+var app = express();
+/* ENREGISTREMENT DES ROUTEURS */
+
+app.use('/images', express["static"](path.join(_dirname, 'images')));
 app.use('/api/user', userRoutes);
+app.use('/api/sauce', saucesRoutes);
 /* CONNEXION MONGODB */
 
-mongoose.connect('mongodb+srv://kimt0t0:<BdmNH6SUZFIkVT0u>@cluster0.omuvgnu.mongodb.net/?retryWrites=true&w=majority', {
+require('dotenv').config();
+
+var user = process.env.DB_USER;
+var pass = process.env.DB_PASS;
+mongoose.connect("mongodb+srv://".concat(user, ":").concat(pass, "@cluster0.omuvgnu.mongodb.net/?retryWrites=true&w=majority"), {
   useNewUrlParser: true,
   useUnifiedTopology: true
 }).then(function () {
@@ -28,21 +38,13 @@ mongoose.connect('mongodb+srv://kimt0t0:<BdmNH6SUZFIkVT0u>@cluster0.omuvgnu.mong
   return console.log('Connexion à MongoDB échouée !');
 });
 /* MIDDLEWARES */
-// Express reçoit les requêtes avec un Content-Type 'application/json' et les met à disposition sur l'objet req:
-
-app.use(express.json()); // Prévention erreurs CORS:
+// Prévention erreurs CORS:
 
 app.use(function (req, res, next) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
   next();
-});
-app.post('/api/user', function (req, res, next) {
-  console.log(req.body);
-  res.status(201).json({
-    message: 'Objet créé !'
-  });
 }); //Confirmation requête de l'app au serveur:
 
 app.use(function (req, res, next) {
