@@ -8,6 +8,10 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kimt0t0/P6_ROBERT_Kim.git"
+  },
   "private": true,
   "dependencies": {
     "@angular/animations": "~13.2.0",
@@ -26,7 +30,7 @@
     "zone.js": "~0.11.4"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "~13.2.4",
+    "@angular-devkit/build-angular": "^13.3.9",
     "@angular/cli": "~13.2.4",
     "@angular/compiler-cli": "~13.2.0",
     "@types/jasmine": "~3.10.0",
@@ -38,5 +42,23 @@
     "karma-jasmine": "~4.0.0",
     "karma-jasmine-html-reporter": "~1.7.0",
     "typescript": "~4.5.2"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kimt0t0/P6_ROBERT_Kim.git"
+  },
+  "keywords": [
+    "backend",
+    "openclassrooms",
+    "hot",
+    "takes",
+    "javascript",
+    "node"
+  ],
+  "author": "Kim ROBERT",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kimt0t0/P6_ROBERT_Kim/issues"
+  },
+  "homepage": "https://github.com/kimt0t0/P6_ROBERT_Kim#readme"
 }
