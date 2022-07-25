@@ -2,25 +2,21 @@
 
 /* VARIABLES */
 const express = require('express');
-const path = require('path');
 const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
 
+const path = require('path');
 const userRoutes = require('./routes/user');
 const saucesRoutes = require('./routes/sauce');
-const User = require('./models/User');
-const Sauce = require('./models/Sauce');
+//const helmet = require('helmet');
 
 const app = express();
 
-/* ENREGISTREMENT DES ROUTEURS */
-app.use('/api/user', userRoutes);
-app.use('/api/sauce', saucesRoutes);
-
-/* CONNEXION MONGODB */
 require('dotenv').config();
 const user = process.env.DB_USER;
 const pass = process.env.DB_PASS;
 
+/* CONNEXION MONGODB */
 mongoose.connect(`mongodb+srv://kimt0t0:BdmNH6SUZFIkVT0u@cluster0.omuvgnu.mongodb.net/?retryWrites=true&w=majority`,
   { useNewUrlParser: true,
     useUnifiedTopology: true 
@@ -39,11 +35,16 @@ app.use((req, res, next) => {
     next();
 });
 
-//Confirmation requête de l'app au serveur:
-app.use((req, res, next) => {
-    res.json({ message: 'Votre requête a bien été reçue !' });
-    // instructions
-    next();
-});
+app.use(bodyParser.json());
+//app.use(helmet());
+
+app.use('./images', express.static(path.join(__dirname, 'images')));
+app.use('./routes/sauce.js', saucesRoutes);
+app.use('./routes/user.js', userRoutes);
+
+/* ou:
+app.use('/api/user', userRoutes);
+app.use('/api/sauce', saucesRoutes); */
+
 
 module.exports = app;
