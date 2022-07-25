@@ -13,7 +13,6 @@ const Sauce = require('./models/Sauce');
 const app = express();
 
 /* ENREGISTREMENT DES ROUTEURS */
-app.use('/images', express.static(path.join(_dirname, 'images')));
 app.use('/api/user', userRoutes);
 app.use('/api/sauce', saucesRoutes);
 

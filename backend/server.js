@@ -5,6 +5,7 @@
 // Importation de http et de l'app
 const http = require('http');
 const app = require('./app');
+const dotenv = require('dotenv').config(); // nécessaire pour faire fonctionner serveur node, doc ici: https://www.freecodecamp.org/news/how-to-use-node-environment-variables-with-a-dotenv-file-for-node-js-and-npm/
 
 
 /* FONCTIONS */
