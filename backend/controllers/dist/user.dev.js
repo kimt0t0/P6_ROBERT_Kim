@@ -3,35 +3,56 @@
 /* VARIABLES */
 var User = require('../models/User');
 
-var jwt = require('jsonwebtoken');
+var bcrypt = require('bcrypt');
+
+var jwt = require('jsonwebtoken'); //token generation
+
+
+var emailValidator = require('email-validator');
+
+var passwordValidator = require('password-validator');
+
+var MaskData = require('maskdata');
+
+var passwordSchema = new passwordValidator();
+passwordSchema.is().min(8) //min length
+.is.max(50) //max length
+.has().uppercase() //must have...
+.has().lowercase().has().digits().has().not().symbols() // must not have...
+.has().not().spaces();
 /* FONCTIONS */
 
-/* Inscription */
-
+/* Sign-Up */
 
 exports.signup = function (req, res, next) {
-  bcrypt.hash(req.body.password, 10) // async func de cryptage mot de passe (avec hachage x10)
-  .then(function (hash) {
-    // création utilisateur
-    var user = new User({
-      email: req.body.email,
-      password: hash
+  if (!emailValidator.validate(req.body.email) || !passwordSchema.validate(req.body.password)) {
+    return res.status(400).json({
+      message: 'Veuillez vérifier le format de votre adresse e-mail ainsi que votre mot-de-passe. Il doit comporter minimum 8 caractères et contenir des minuscules, majuscules et chiffres. Les espaces et caractères spéciaux ne sont pas autorisés.'
     });
-    user.save() // enregistrement utilisateur sur bdd
-    .then(function () {
-      res.status(201).json({
-        message: 'Utilisateur créé !'
+  } else if (emailValidator.validate(req.body.email) || passwordSchema.validate(req.body.password)) {
+    var maskedMail = MaskData.maskEmail2(req.body.email);
+    bcrypt.hash(req.body.password, 10).then(function (hash) {
+      var user = new User({
+        email: email,
+        password: hash
+      });
+      user.save().then(function (hash) {
+        return res.status(201).json({
+          message: 'Utilisateur créé!'
+        });
+      })["catch"](function (error) {
+        return res.status(400).json({
+          error: error
+        });
       });
     })["catch"](function (error) {
-      res.status(400).json({
+      return res.status(500).json({
         error: error
       });
     });
-  })["catch"](function (error) {
-    res.status(500).json({
-      error: error
-    });
-  });
+  }
+
+  ;
 };
 /* Connexion */
 

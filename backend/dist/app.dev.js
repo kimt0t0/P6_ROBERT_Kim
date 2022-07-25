@@ -44,11 +44,7 @@ app.use(function (req, res, next) {
 app.use(bodyParser.json()); //app.use(helmet());
 
 app.use('./images', express["static"](path.join(__dirname, 'images')));
-app.use('./routes/sauce.js', saucesRoutes);
-app.use('./routes/user.js', userRoutes);
-/* ou:
-app.use('/api/user', userRoutes);
-app.use('/api/sauce', saucesRoutes); */
-
+app.use('/api/user', saucesRoutes);
+app.use('/api/sauce', userRoutes);
 module.exports = app;
 //# sourceMappingURL=app.dev.js.map
