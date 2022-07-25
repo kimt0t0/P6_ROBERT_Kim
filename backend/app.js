@@ -2,8 +2,8 @@
 
 /* VARIABLES */
 const express = require('express');
-const mongoose = require('mongoose');
 const path = require('path');
+const mongoose = require('mongoose');
 
 const userRoutes = require('./routes/user');
 const saucesRoutes = require('./routes/sauce');
@@ -21,7 +21,7 @@ require('dotenv').config();
 const user = process.env.DB_USER;
 const pass = process.env.DB_PASS;
 
-mongoose.connect(`mongodb+srv://${user}:${pass}@cluster0.omuvgnu.mongodb.net/?retryWrites=true&w=majority`,
+mongoose.connect(`mongodb+srv://kimt0t0:BdmNH6SUZFIkVT0u@cluster0.omuvgnu.mongodb.net/?retryWrites=true&w=majority`,
   { useNewUrlParser: true,
     useUnifiedTopology: true 
     })

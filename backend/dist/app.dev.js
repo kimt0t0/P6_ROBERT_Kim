@@ -5,9 +5,9 @@
 /* VARIABLES */
 var express = require('express');
 
-var mongoose = require('mongoose');
-
 var path = require('path');
+
+var mongoose = require('mongoose');
 
 var userRoutes = require('./routes/user');
 
@@ -28,7 +28,7 @@ require('dotenv').config();
 
 var user = process.env.DB_USER;
 var pass = process.env.DB_PASS;
-mongoose.connect("mongodb+srv://".concat(user, ":").concat(pass, "@cluster0.omuvgnu.mongodb.net/?retryWrites=true&w=majority"), {
+mongoose.connect("mongodb+srv://kimt0t0:BdmNH6SUZFIkVT0u@cluster0.omuvgnu.mongodb.net/?retryWrites=true&w=majority", {
   useNewUrlParser: true,
   useUnifiedTopology: true
 }).then(function () {
