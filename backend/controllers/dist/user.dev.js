@@ -33,7 +33,7 @@ exports.signup = function (req, res, next) {
     var maskedMail = MaskData.maskEmail2(req.body.email);
     bcrypt.hash(req.body.password, 10).then(function (hash) {
       var user = new User({
-        email: email,
+        email: maskedMail,
         password: hash
       });
       user.save().then(function (hash) {
@@ -54,40 +54,39 @@ exports.signup = function (req, res, next) {
 
   ;
 };
-/* Connexion */
+/* Log-in */
 
 
 exports.login = function (req, res, next) {
+  var maskedMail = MaskData.maskEmail2(req.body.email);
   User.findOne({
-    email: req.body.email
-  }).then(function (user) {
+    email: maskedMail
+  }) // check if the address is in the data-base
+  .then(function (user) {
     if (!user) {
       return res.status(401).json({
-        message: 'Paire login/mot de passe incorrecte'
+        error: 'Utilisateur non trouvé!'
       });
     }
 
-    bcrypt.compare(req.body.password, user.password).then(function (valid) {
+    bcrypt.compare(req.body.password, user.password) //compares the hashes
+    .then(function (valid) {
       if (!valid) {
         return res.status(401).json({
-          message: 'Paire login/mot de passe incorrecte'
+          error: 'Mot de passe incorrect!'
         });
       }
 
       res.status(200).json({
         userId: user._id,
-        token: jwt.sign( // chiffrage nouveau token qui contient:
-        {
+        token: jwt.sign({
           userId: user._id
-        }, // id utilisateur
-        'RANDOM_TOKEN_SECRET', // chaîne secrète de dev temporaire pour crypter le token
-        {
+        }, 'RANDOM_SECRET_TOKEN', {
           expiresIn: '24h'
-        } // durée de validité
-        )
+        })
       });
     })["catch"](function (error) {
-      res.status(500).json({
+      return res.status(500).json({
         error: error
       });
     });

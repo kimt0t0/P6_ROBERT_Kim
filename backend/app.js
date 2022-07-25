@@ -5,12 +5,13 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 
-const path = require('path');
-const userRoutes = require('./routes/user');
-const saucesRoutes = require('./routes/sauce');
 const helmet = require('helmet');
 
+const path = require('path');
 const app = express();
+
+const userRoutes = require('./routes/user');
+const saucesRoutes = require('./routes/sauce');
 
 require('dotenv').config();
 const user = process.env.DB_USER;

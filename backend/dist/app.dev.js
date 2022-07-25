@@ -9,14 +9,15 @@ var mongoose = require('mongoose');
 
 var bodyParser = require('body-parser');
 
+var helmet = require('helmet');
+
 var path = require('path');
+
+var app = express();
 
 var userRoutes = require('./routes/user');
 
-var saucesRoutes = require('./routes/sauce'); //const helmet = require('helmet');
-
-
-var app = express();
+var saucesRoutes = require('./routes/sauce');
 
 require('dotenv').config();
 

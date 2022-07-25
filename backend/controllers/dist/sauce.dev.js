@@ -14,7 +14,7 @@ var Sauce = require('../models/Sauce');
 var fs = require('fs');
 /* FONCTIONS */
 
-/* Création sauce: */
+/* Create sauce: */
 
 
 exports.createSauce = function (req, res, next) {
@@ -36,7 +36,7 @@ exports.createSauce = function (req, res, next) {
   });
   console.log(sauce);
 };
-/* Modification sauce: */
+/* Modify sauce: */
 
 
 exports.modifySauce = function (req, res, next) {
@@ -72,7 +72,7 @@ exports.modifySauce = function (req, res, next) {
     });
   });
 };
-/* Suppression sauce: */
+/* Delete sauce: */
 
 
 exports.deleteSauce = function (req, res, next) {

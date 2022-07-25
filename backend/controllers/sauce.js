@@ -7,7 +7,7 @@ const fs = require('fs');
 
 /* FONCTIONS */
 
-/* Création sauce: */
+/* Create sauce: */
 exports.createSauce = (req, res, next) => {
     const sauceObject = JSON.parse(req.body.sauce);
     delete sauceObject._id;
@@ -29,7 +29,7 @@ exports.createSauce = (req, res, next) => {
     console.log(sauce);
 };
 
-/* Modification sauce: */
+/* Modify sauce: */
 exports.modifySauce = (req, res, next) => {
     const sauceObject = req.file ? {
         ...JSON.parse(req.body.thing),
@@ -51,7 +51,7 @@ exports.modifySauce = (req, res, next) => {
         .catch(error => res.status(400).json({error}));
 };
 
-/* Suppression sauce: */
+/* Delete sauce: */
 exports.deleteSauce = (req, res, next) => {
     Sauce.findOne({ _id: req.params.id}) // utilisation de l'idée pour accéder à la sauce dans la bdd
         .then(sauce => {
