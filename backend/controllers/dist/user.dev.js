@@ -1,9 +1,9 @@
 "use strict";
 
 /* VARIABLES */
-var User = require('../models/User');
-
 var bcrypt = require('bcrypt');
+
+var User = require('../models/User');
 
 var jwt = require('jsonwebtoken'); //token generation
 
@@ -16,10 +16,10 @@ var MaskData = require('maskdata');
 
 var passwordSchema = new passwordValidator();
 passwordSchema.is().min(8) //min length
-.is.max(50) //max length
+.is().max(50) //max length
 .has().uppercase() //must have...
-.has().lowercase().has().digits().has().not().symbols() // must not have...
-.has().not().spaces();
+.has().lowercase().has().digits().has().not().symbols(); // must not have...
+
 /* FONCTIONS */
 
 /* Sign-Up */
@@ -61,7 +61,7 @@ exports.login = function (req, res, next) {
   var maskedMail = MaskData.maskEmail2(req.body.email);
   User.findOne({
     email: maskedMail
-  }) // check if the address is in the data-base
+  }) // check if the email address is in the data-base
   .then(function (user) {
     if (!user) {
       return res.status(401).json({
@@ -81,7 +81,7 @@ exports.login = function (req, res, next) {
         userId: user._id,
         token: jwt.sign({
           userId: user._id
-        }, 'RANDOM_SECRET_TOKEN', {
+        }, 'RANDOM_TOKEN_SECRET', {
           expiresIn: '24h'
         })
       });

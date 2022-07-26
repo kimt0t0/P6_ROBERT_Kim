@@ -15,9 +15,12 @@ var path = require('path');
 
 var app = express();
 
+var cors = require('cors');
+
 var userRoutes = require('./routes/user');
 
-var saucesRoutes = require('./routes/sauce');
+var saucesRoutes = require('./routes/sauce'); // ATTENTION ne fonctionne pas actuellement:
+
 
 require('dotenv').config();
 
@@ -25,7 +28,7 @@ var user = process.env.DB_USER;
 var pass = process.env.DB_PASS;
 /* CONNEXION MONGODB */
 
-mongoose.connect("mongodb+srv://kimt0t0:BdmNH6SUZFIkVT0u@cluster0.omuvgnu.mongodb.net/?retryWrites=true&w=majority", {
+mongoose.connect("mongodb+srv://".concat(user, ":").concat(pass, "@cluster0.omuvgnu.mongodb.net/?retryWrites=true&w=majority"), {
   useNewUrlParser: true,
   useUnifiedTopology: true
 }).then(function () {
@@ -36,16 +39,14 @@ mongoose.connect("mongodb+srv://kimt0t0:BdmNH6SUZFIkVT0u@cluster0.omuvgnu.mongod
 /* MIDDLEWARES */
 // Prévention erreurs CORS:
 
-app.use(function (req, res, next) {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
-  next();
-});
-app.use(bodyParser.json()); //app.use(helmet());
-
+app.use(cors({
+  origin: '*',
+  methods: ['GET', 'POST', 'DELETE', 'UPDATE', 'PUT', 'PATCH']
+}));
+app.use(bodyParser.json());
+app.use(helmet());
 app.use('./images', express["static"](path.join(__dirname, 'images')));
-app.use('/api/user', saucesRoutes);
-app.use('/api/sauce', userRoutes);
+app.use('/api/user', userRoutes);
+app.use('/api/sauce', saucesRoutes);
 module.exports = app;
 //# sourceMappingURL=app.dev.js.map

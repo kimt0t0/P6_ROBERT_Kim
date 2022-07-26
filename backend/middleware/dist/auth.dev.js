@@ -12,7 +12,7 @@ module.exports = function (req, res, next) {
   try {
     var token = req.headers.authorization.split(' ')[1]; // récupération du token dans le header de la requête
 
-    var decodedToken = jwt.verify(token, 'RANDOM_SECRET_TOKEN'); // décodage token
+    var decodedToken = jwt.verify(token, 'RANDOM_TOKEN_SECRET'); // décodage token
 
     var userId = decodedToken.userId; // récupération id utilisateur et ajout à l'objet Request pour que les routes puissent l'utiliser
 

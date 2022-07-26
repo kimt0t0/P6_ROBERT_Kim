@@ -1,6 +1,6 @@
 /* VARIABLES */
-const User = require('../models/User');
 const bcrypt = require('bcrypt');
+const User = require('../models/User');
 const jwt = require('jsonwebtoken'); //token generation
 const emailValidator = require('email-validator');
 const passwordValidator = require('password-validator');
@@ -10,12 +10,11 @@ const passwordSchema = new passwordValidator();
 
 passwordSchema
     .is().min(8)  //min length
-    .is.max(50) //max length
+    .is().max(50) //max length
     .has().uppercase()  //must have...
     .has().lowercase()
     .has().digits()
-    .has().not().symbols() // must not have...
-    .has().not().spaces();
+    .has().not().symbols(); // must not have...
 
 /* FONCTIONS */
 /* Sign-Up */
@@ -37,12 +36,12 @@ exports.signup = (req, res, next) => {
         })
         .catch(error => res.status(500).json({error}))
     };
-};
+}
 
 /* Log-in */
 exports.login = (req, res, next) => {
     const maskedMail = MaskData.maskEmail2(req.body.email);
-    User.findOne({email: maskedMail}) // check if the address is in the data-base
+    User.findOne({email: maskedMail}) // check if the email address is in the data-base
     .then(user => {
         if(!user) {
             return res.status(401).json({error: 'Utilisateur non trouvé!'});
@@ -56,7 +55,7 @@ exports.login = (req, res, next) => {
                 userId: user._id,
                 token: jwt.sign(
                     {userId: user._id},
-                    'RANDOM_SECRET_TOKEN',
+                    'RANDOM_TOKEN_SECRET',
                     {expiresIn: '24h'}
                 )
             })
