@@ -12,7 +12,7 @@ const app = express();
 const cors = require('cors');
 
 const userRoutes = require('./routes/user');
-const saucesRoutes = require('./routes/sauce');
+const saucesRoutes = require('./routes/sauces');
 
 // ATTENTION ne fonctionne pas actuellement:
 require('dotenv').config();
@@ -38,7 +38,7 @@ app.use(cors({
 app.use(bodyParser.json());
 app.use(helmet());
 
-app.use('./images', express.static(path.join(__dirname, 'images')));
+app.use('/images', express.static(path.join(__dirname, 'images')));
 app.use('/api/auth', userRoutes);
 app.use('/api/sauces', saucesRoutes);
 
