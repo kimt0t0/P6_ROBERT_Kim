@@ -11,8 +11,6 @@ var bodyParser = require('body-parser');
 
 var helmet = require('helmet');
 
-var path = require('path');
-
 var cors = require('cors');
 
 var userRoutes = require('./routes/user');
@@ -37,15 +35,22 @@ mongoose.connect("mongodb+srv://".concat(user, ":").concat(pass, "@cluster0.omuv
 });
 /* PRÉVENTION ERREURS CORS */
 
-app.use(cors({
-  origin: '*',
-  methods: ['GET', 'POST', 'DELETE', 'UPDATE', 'PUT', 'PATCH']
-}));
+app.use(function (req, res, next) {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
+  next();
+});
 /* ACTIONS */
 
+app.use(helmet({
+  crossOriginResourcePolicy: {
+    policy: "cross-origin"
+  }
+}));
 app.use(bodyParser.json());
-app.use(helmet());
-app.use('/images', express["static"](path.join(__dirname, 'images')));
+app.use('/images', express["static"](__dirname + 'images')); //chemin statique pour les images
+
 app.use('/api/auth', userRoutes);
 app.use('/api/sauces', saucesRoutes);
 module.exports = app;

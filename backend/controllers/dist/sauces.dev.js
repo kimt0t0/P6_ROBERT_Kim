@@ -36,32 +36,6 @@ exports.createSauce = function (req, res, next) {
     });
   });
 };
-/* Get all sauces: */
-
-
-exports.getAllSauces = function (req, res, next) {
-  Sauce.find().then(function (sauces) {
-    return res.status(200).json(sauces);
-  })["catch"](function (error) {
-    return res.status(400).json({
-      error: error
-    });
-  });
-};
-/* Get one sauce: */
-
-
-exports.getOneSauce = function (req, res, next) {
-  Sauce.findOne({
-    _id: req.params.id
-  }).then(function (sauce) {
-    return res.status(200).json(sauce);
-  })["catch"](function (error) {
-    return res.status(400).json({
-      error: error
-    });
-  });
-};
 /* Modify sauce: */
 
 
@@ -108,12 +82,46 @@ exports.deleteSauce = function (req, res, next) {
     });
   });
 };
+/* Get all sauces: */
+
+
+exports.getAllSauces = function (req, res, next) {
+  Sauce.find().then(function (sauces) {
+    return res.status(200).json(sauces);
+  })["catch"](function (error) {
+    return res.status(400).json({
+      error: error
+    });
+  });
+};
+/* Get one sauce: */
+
+
+exports.getOneSauce = function (req, res, next) {
+  Sauce.findOne({
+    _id: req.params.id
+  }).then(function (sauce) {
+    return res.status(200).json(sauce);
+  })["catch"](function (error) {
+    return res.status(400).json({
+      error: error
+    });
+  });
+};
 /* Like sauce: */
 
 
 exports.likeSauce = function (req, res, next) {
-  res.status(200).json({
-    message: 'Objet liké !'
-  });
+  var like = req.body.like;
+
+  if (like === 1) {
+    Sauce.updateOne({
+      _id: req.params.id
+    }, {
+      /* à compléter */
+    });
+  } else if (like === -1) {//a compléter
+  } else {//a compléter
+    }
 };
 //# sourceMappingURL=sauces.dev.js.map
