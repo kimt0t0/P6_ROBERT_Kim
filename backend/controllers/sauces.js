@@ -58,8 +58,13 @@ exports.modifySauce = (req, res, next) => {
 exports.deleteSauce = (req, res, next) => {
     Sauce.findOne({_id: req.params.id})
     .then(sauce => {
-        const filename = sauce.imageUrl
-    })
+        const filename = sauce.imageUrl.split('/images')[1]; //récupération adresse image
+        fs.unlink(`images/${filename}`, () => { //suppression image du serveur
+        Sauce.deleteOne({_id: req.params.id})
+        .then(() => res.status(200).json({message: 'Sauce deleted!'}))
+        .catch(error => res.status(400).json({error}))
+    });
+    });
  };
 
  /* Like sauce: */

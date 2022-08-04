@@ -90,7 +90,22 @@ exports.deleteSauce = function (req, res, next) {
   Sauce.findOne({
     _id: req.params.id
   }).then(function (sauce) {
-    var filename = sauce.imageUrl;
+    var filename = sauce.imageUrl.split('/images')[1]; //récupération adresse image
+
+    fs.unlink("images/".concat(filename), function () {
+      //suppression image du serveur
+      Sauce.deleteOne({
+        _id: req.params.id
+      }).then(function () {
+        return res.status(200).json({
+          message: 'Sauce deleted!'
+        });
+      })["catch"](function (error) {
+        return res.status(400).json({
+          error: error
+        });
+      });
+    });
   });
 };
 /* Like sauce: */
