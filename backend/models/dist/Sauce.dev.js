@@ -37,8 +37,16 @@ var sauceSchema = mongoose.Schema({
   userId: {
     type: String
   },
-  usersLiked: [String],
-  usersDisliked: [String]
+  usersLiked: {
+    type: [String],
+    req: true,
+    "default": []
+  },
+  usersDisliked: {
+    type: [String],
+    req: true,
+    "default": []
+  }
 });
 module.exports = mongoose.model('Sauce', sauceSchema);
 //# sourceMappingURL=Sauce.dev.js.map

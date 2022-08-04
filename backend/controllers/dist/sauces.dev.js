@@ -16,6 +16,26 @@ var fs = require('fs');
 var PasswordValidator = require('password-validator');
 /* FONCTIONS */
 
+/* Create sauce: */
+
+
+exports.createSauce = function (req, res, next) {
+  var sauceObject = JSON.parse(req.body.sauce);
+  delete sauceObject._id;
+  delete sauceObject._userId;
+  var sauce = new Sauce(_objectSpread({}, sauceObject, {
+    imageUrl: "".concat(req.protocol, "://").concat(req.get('host'), "/images/").concat(req.file.filename)
+  }));
+  sauce.save().then(function () {
+    res.status(201).json({
+      message: 'Sauce saved'
+    });
+  })["catch"](function (error) {
+    return res.status(400).json({
+      error: error
+    });
+  });
+};
 /* Get all sauces: */
 
 
@@ -32,34 +52,10 @@ exports.getAllSauces = function (req, res, next) {
 
 
 exports.getOneSauce = function (req, res, next) {
-  findOne({
+  Sauce.findOne({
     _id: req.params.id
   }).then(function (sauce) {
     return res.status(200).json(sauce);
-  })["catch"](function (error) {
-    return res.status(400).json({
-      error: error
-    });
-  });
-};
-/* Create sauce: */
-
-
-exports.createSauce = function (req, res, next) {
-  console.log(req.body);
-  var sauceObject = JSON.parse(req.body.sauce);
-  console.log(sauceObject);
-  delete sauceObject._id; //delete sauceObject._userId;
-
-  var sauce = new Sauce(_objectSpread({}, sauceObject, {
-    //userId: req.auth.userId,
-    imageURL: "".concat(req.protocol, "://").concat(req.get('host'), "/images/").concat(req.file.filename)
-  }));
-  console.log(sauce);
-  sauce.save().then(function () {
-    res.status(201).json({
-      message: 'Sauce saved'
-    });
   })["catch"](function (error) {
     return res.status(400).json({
       error: error
@@ -70,34 +66,19 @@ exports.createSauce = function (req, res, next) {
 
 
 exports.modifySauce = function (req, res, next) {
-  var sauceObject = req.file ? _objectSpread({}, JSON.parse(req.body.thing), {
+  var sauceObject = req.file ? _objectSpread({}, JSON.parse(req.body.sauce), {
     imageUrl: "".concat(req.protocol, "://").concat(req.get('host'), "/images/").concat(req.file.filename)
   }) : _objectSpread({}, req.body);
-  delete sauceObject._userId;
-  Sauce.findOne({
+  Sauce.updateOne({
     _id: req.params.id
-  }).then(function (sauce) {
-    if (sauce.userId != req.auth.userId) {
-      res.status(401).json({
-        message: 'Not authorized'
-      });
-    } else {
-      Sauce.updateOne({
-        _id: req.params.id
-      }, _objectSpread({}, sauceObject, {
-        _id: req.params.id
-      })).then(function () {
-        return res.status(200).json({
-          message: 'Object modified!'
-        });
-      })["catch"](function (error) {
-        return res.status(401).json({
-          error: error
-        });
-      });
-    }
+  }, _objectSpread({}, sauceObject, {
+    _id: req.params.id
+  })).then(function () {
+    return res.status(200).json({
+      message: 'Object modified!'
+    });
   })["catch"](function (error) {
-    return res.status(400).json({
+    return res.status(401).json({
       error: error
     });
   });
@@ -108,35 +89,8 @@ exports.modifySauce = function (req, res, next) {
 exports.deleteSauce = function (req, res, next) {
   Sauce.findOne({
     _id: req.params.id
-  }) // utilisation de l'idée pour accéder à la sauce dans la bdd
-  .then(function (sauce) {
-    if (sauce.userId != req.auth.userId) {
-      // vérification si utilisateur <-> créateur
-      res.status(401).json({
-        message: 'Not authorized'
-      });
-    } else {
-      var filename = thing.imageUrl.split('/images/')[1]; // récupération nom fichier dans url image
-
-      fs.unlink("images/".concat(filename), function () {
-        //suppression du fichier et callback à exécuter ensuite
-        Sauce.deleteOne({
-          _id: req.params.id
-        }).then(function () {
-          res.status(200).json({
-            message: 'Objet supprimé !'
-          });
-        })["catch"](function (error) {
-          return res.status(401).json({
-            error: error
-          });
-        });
-      });
-    }
-  })["catch"](function (error) {
-    return res.status(500).json({
-      error: error
-    });
+  }).then(function (sauce) {
+    var filename = sauce.imageUrl;
   });
 };
 /* Like sauce: */
