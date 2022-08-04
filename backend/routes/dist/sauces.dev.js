@@ -5,11 +5,11 @@
 /* VARIABLES */
 var sauceCtrl = require('../controllers/sauces');
 
-var auth = require('../middleware/auth');
-
 var express = require('express');
 
 var router = express.Router();
+
+var auth = require('../middleware/auth');
 
 var multer = require('../middleware/multer-config');
 /* ACTIONS */
@@ -25,6 +25,6 @@ router["delete"]('/:id', auth, sauceCtrl.deleteSauce); //Get sauce(s):
 router.get('/', auth, sauceCtrl.getAllSauces);
 router.get('/:id', auth, sauceCtrl.getOneSauce); //Likes:
 
-router.post('/:id/like', auth, sauceCtrl.createLike);
+router.post('/:id/like', auth, sauceCtrl.likeSauce);
 module.exports = router;
 //# sourceMappingURL=sauces.dev.js.map

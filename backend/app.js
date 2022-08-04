@@ -8,11 +8,12 @@ const bodyParser = require('body-parser');
 const helmet = require('helmet');
 
 const path = require('path');
-const app = express();
 const cors = require('cors');
 
 const userRoutes = require('./routes/user');
 const saucesRoutes = require('./routes/sauces');
+
+const app = express();
 
 // ATTENTION ne fonctionne pas actuellement:
 require('dotenv').config();
@@ -27,14 +28,14 @@ mongoose.connect(`mongodb+srv://${user}:${pass}@cluster0.omuvgnu.mongodb.net/?re
   .then(() => console.log('Connexion à MongoDB réussie !'))
   .catch(() => console.log('Connexion à MongoDB échouée !'));
 
-/* MIDDLEWARES */
-
-// Prévention erreurs CORS:
+/* PRÉVENTION ERREURS CORS */
 app.use(cors({
   origin: '*',
   methods: ['GET','POST','DELETE','UPDATE','PUT','PATCH']
 }));
 
+
+/* ACTIONS */
 app.use(bodyParser.json());
 app.use(helmet());
 

@@ -3,6 +3,7 @@
 /* VARIABLES */
 const Sauce = require('../models/Sauce');
 const fs = require('fs');
+const PasswordValidator = require('password-validator');
 
 
 /* FONCTIONS */
@@ -24,7 +25,9 @@ exports.getOneSauce = (req, res, next) => {
 
 /* Create sauce: */
 exports.createSauce = (req, res, next) => {
+    console.log(req.body);
     const sauceObject = JSON.parse(req.body.sauce);
+    console.log(sauceObject);
     delete sauceObject._id;
     //delete sauceObject._userId;
     const sauce = new Sauce ({
@@ -32,7 +35,7 @@ exports.createSauce = (req, res, next) => {
         //userId: req.auth.userId,
         imageURL: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
     });
-
+    console.log(sauce);
     sauce.save()
 
     .then( () => {
@@ -80,3 +83,8 @@ exports.deleteSauce = (req, res, next) => {
         })
         .catch( error => res.status(500).json({ error }))
  };
+
+ /* Like sauce: */
+exports.likeSauce = (req, res, next) => {
+    res.status(200).json({message: 'Objet liké !'});
+}

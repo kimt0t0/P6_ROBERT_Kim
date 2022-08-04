@@ -2,10 +2,10 @@
 
 /* VARIABLES */
 const sauceCtrl = require('../controllers/sauces');
-const auth = require('../middleware/auth');
-
 const express = require('express');
 const router = express.Router();
+const auth = require('../middleware/auth');
+
 
 const multer = require('../middleware/multer-config');
 
@@ -21,6 +21,6 @@ router.get('/', auth, sauceCtrl.getAllSauces);
 router.get('/:id', auth, sauceCtrl.getOneSauce);
 
 //Likes:
-router.post('/:id/like', auth, sauceCtrl.createLike);
+router.post('/:id/like', auth, sauceCtrl.likeSauce);
 
 module.exports = router;

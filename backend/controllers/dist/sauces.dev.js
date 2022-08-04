@@ -12,6 +12,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 var Sauce = require('../models/Sauce');
 
 var fs = require('fs');
+
+var PasswordValidator = require('password-validator');
 /* FONCTIONS */
 
 /* Get all sauces: */
@@ -44,13 +46,16 @@ exports.getOneSauce = function (req, res, next) {
 
 
 exports.createSauce = function (req, res, next) {
+  console.log(req.body);
   var sauceObject = JSON.parse(req.body.sauce);
+  console.log(sauceObject);
   delete sauceObject._id; //delete sauceObject._userId;
 
   var sauce = new Sauce(_objectSpread({}, sauceObject, {
     //userId: req.auth.userId,
     imageURL: "".concat(req.protocol, "://").concat(req.get('host'), "/images/").concat(req.file.filename)
   }));
+  console.log(sauce);
   sauce.save().then(function () {
     res.status(201).json({
       message: 'Sauce saved'
@@ -132,6 +137,14 @@ exports.deleteSauce = function (req, res, next) {
     return res.status(500).json({
       error: error
     });
+  });
+};
+/* Like sauce: */
+
+
+exports.likeSauce = function (req, res, next) {
+  res.status(200).json({
+    message: 'Objet liké !'
   });
 };
 //# sourceMappingURL=sauces.dev.js.map

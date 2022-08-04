@@ -4,7 +4,8 @@
   "description": "Backend du projet 6 HotTakes de la formation Developpeur Web chez OpenClassrooms",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
   },
   "repository": {
     "type": "git",
@@ -26,6 +27,7 @@
   "homepage": "https://github.com/kimt0t0/P6_ROBERT_Kim#readme",
   "dependencies": {
     "bcrypt": "^5.0.1",
+    "body-parser": "^1.20.0",
     "cors": "^2.8.5",
     "dotenv": "^16.0.1",
     "email-validator": "^2.0.4",
@@ -35,7 +37,7 @@
     "jsonwebtoken": "^8.5.1",
     "maskdata": "^1.1.10",
     "mongodb": "^4.8.0",
-    "mongoose": "^6.4.6",
+    "mongoose": "^6.5.0",
     "mongoose-unique-validator": "^3.1.0",
     "multer": "^1.4.5-lts.1",
     "password-validator": "^5.3.0"

@@ -13,14 +13,13 @@ var helmet = require('helmet');
 
 var path = require('path');
 
-var app = express();
-
 var cors = require('cors');
 
 var userRoutes = require('./routes/user');
 
-var saucesRoutes = require('./routes/sauces'); // ATTENTION ne fonctionne pas actuellement:
+var saucesRoutes = require('./routes/sauces');
 
+var app = express(); 
 
 require('dotenv').config();
 
@@ -36,13 +35,16 @@ mongoose.connect("mongodb+srv://".concat(user, ":").concat(pass, "@cluster0.omuv
 })["catch"](function () {
   return console.log('Connexion à MongoDB échouée !');
 });
-/* MIDDLEWARES */
-// Prévention erreurs CORS:
+
+/* PRÉVENTION ERREURS CORS */
 
 app.use(cors({
   origin: '*',
   methods: ['GET', 'POST', 'DELETE', 'UPDATE', 'PUT', 'PATCH']
 }));
+
+/* ACTIONS */
+
 app.use(bodyParser.json());
 app.use(helmet());
 app.use('/images', express["static"](path.join(__dirname, 'images')));
