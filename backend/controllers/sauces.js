@@ -32,7 +32,7 @@ exports.createSauce = (req, res, next) => {
 exports.modifySauce = (req, res, next) => {
     const sauceObject = req.file ? {
         ...JSON.parse(req.body.sauce),
-        imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+        imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
     } : {...req.body};
 
     Sauce.updateOne({_id: req.params.id}, {...sauceObject, _id: req.params.id})
@@ -70,28 +70,26 @@ exports.getOneSauce = (req, res, next) => {
  /* Like sauce: */
 exports.likeSauce = (req, res, next) => {
     const like = req.body.like;
+    const dislike = req.body.dislike;
+    console.log("like: ", like);
+    console.log("dislike: ", dislike);
+
     if (like === 1) {
         Sauce.updateOne({_id: req.params.id}, {
             $inc: {likes: 1},
-            $push: {usersLiked: req.body.userId}
-        });
+            $push: {usersLiked: req.body.userId},
+            _id: req.params.id
+        })
+        .then(res.status(200).json({message: 'Like added :-)'}))
+        .catch(res.status(400).json({error}));
     }
     else if (like === -1) {
         Sauce.updateOne({_id: req.params.id}, {
             $inc: {dislikes: 1},
-            $push: {usersDisliked: req.body.userId}
-        });
-    }
-    else {
-        Sauce.findOne({_id: req.params.id})
-        .then(sauce => {
-            if (sauce.usersLiked.indexOf(req.body.userId) !== -1) {
-                //instructions
-            }
-            else if(sauce.usersDisliked.indexOf(req.body.userId) !== -1) {
-                //instructions
-            }
+            $push: {usersDisliked: req.body.userId},
+            _id: req.params.id
         })
+        .then(res.status(200).json({message: 'Dislike added :-('}))
         .catch(res.status(400).json({error}));
     }
 };

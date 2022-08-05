@@ -113,15 +113,42 @@ exports.getOneSauce = function (req, res, next) {
 
 exports.likeSauce = function (req, res, next) {
   var like = req.body.like;
+  var dislike = req.body.dislike;
+  console.log("like: ", like);
+  console.log("dislike: ", dislike);
 
   if (like === 1) {
     Sauce.updateOne({
       _id: req.params.id
     }, {
-      /* à compléter */
-    });
-  } else if (like === -1) {//a compléter
-  } else {//a compléter
-    }
+      $inc: {
+        likes: 1
+      },
+      $push: {
+        usersLiked: req.body.userId
+      },
+      _id: req.params.id
+    }).then(res.status(200).json({
+      message: 'Like added :-)'
+    }))["catch"](res.status(400).json({
+      error: error
+    }));
+  } else if (like === -1) {
+    Sauce.updateOne({
+      _id: req.params.id
+    }, {
+      $inc: {
+        dislikes: 1
+      },
+      $push: {
+        usersDisliked: req.body.userId
+      },
+      _id: req.params.id
+    }).then(res.status(200).json({
+      message: 'Dislike added :-('
+    }))["catch"](res.status(400).json({
+      error: error
+    }));
+  }
 };
 //# sourceMappingURL=sauces.dev.js.map

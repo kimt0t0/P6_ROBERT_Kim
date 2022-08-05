@@ -14,7 +14,7 @@ const storage = multer.diskStorage({
         callback(null, 'images');
     },
     filename: (req, file, callback) => { // indique à multer d'utiliser le nom d'origine en remplaçant les ' ' par _
-        const name = file.originalname.split(' ').join('_');
+        const name = file.originalname.split(' ').join('_').replace('.jpg', '');
         const extension = MIME_TYPES[file.mimetype]; // utilise le dictionnaire de type MIME pour résoudre l'extension appropriée
         callback(null, name + Date.now() + '.' + extension); // et d'ajouter un timestamp
     }
