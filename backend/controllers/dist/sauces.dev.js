@@ -112,10 +112,7 @@ exports.getOneSauce = function (req, res, next) {
 
 
 exports.likeSauce = function (req, res, next) {
-  var like = req.body.like;
-  var dislike = req.body.dislike;
-  console.log("like: ", like);
-  console.log("dislike: ", dislike);
+  var like = req.body.like; //Add like:
 
   if (like === 1) {
     Sauce.updateOne({
@@ -133,22 +130,90 @@ exports.likeSauce = function (req, res, next) {
     }))["catch"](res.status(400).json({
       error: error
     }));
-  } else if (like === -1) {
-    Sauce.updateOne({
-      _id: req.params.id
-    }, {
-      $inc: {
-        dislikes: 1
-      },
-      $push: {
-        usersDisliked: req.body.userId
-      },
-      _id: req.params.id
-    }).then(res.status(200).json({
-      message: 'Dislike added :-('
-    }))["catch"](res.status(400).json({
-      error: error
-    }));
-  }
+  } //Add dislike:
+  else if (like === -1) {
+      Sauce.updateOne({
+        _id: req.params.id
+      }, {
+        $inc: {
+          dislikes: 1
+        },
+        $push: {
+          usersDisliked: req.body.userId
+        },
+        _id: req.params.id
+      }).then(res.status(200).json({
+        message: 'Dislike added :-('
+      }))["catch"](res.status(400).json({
+        error: error
+      }));
+    } else {
+      Sauce.findOne({
+        _id: req.params.id
+      }).then(function (sauce) {
+        if (sauce.usersLiked.includes(req.body.userId)) {
+          Sauce.updateOne({
+            _id: req.params.id
+          }, {
+            //_id considéré comme "undefined" fait planter le code
+            $inc: {
+              likes: -1
+            },
+            $pull: {
+              usersLiked: req.body.userId
+            },
+            _id: req.params.id
+          }).then(res.status(200).json({
+            message: "You no longer like this sauce"
+          }))["catch"](function (error) {
+            return res.status(400).json({
+              error: error
+            });
+          });
+        } else if (sauce.usersDisliked.includes(req.body.userId)) {
+          Sauce.updateOne({
+            _id: req.params.id
+          }, {
+            $inc: {
+              dislikes: -1
+            },
+            $pull: {
+              usersDisliked: req.body.userId
+            },
+            _id: req.params.id
+          }).then(res.status(200).json({
+            message: "You no longer like this sauce"
+          }))["catch"](function (error) {
+            return res.status(400).json({
+              error: error
+            });
+          });
+        } else {
+          console.log("There is a problem with this functionality");
+        }
+      })["catch"](function (error) {
+        return res.status(400).json({
+          error: error
+        });
+      });
+    }
+  /* 
+  Si opinion === "liked"
+  Sauce.updateOne({_id: req.params.id}, {
+      $inc: {likes: -1},
+      $pull: {usersLiked: req.body.userId}
+      })
+      .then(res.status(200).json({message: "You no longer like this sauce"}))
+      .catch(error => res.status(400).json({error}));
+    
+  Si opinion === "disliked"
+  Sauce.updateOne({_id: req.params.id}, {
+      $inc: {dislikes: -1},
+      $pull: {usersDisliked: req.body.userId}
+      })
+      .then(res.status(200).json({message: "You no longer like this sauce"}))
+      .catch(error => res.status(400).json({error}));
+  */
+
 };
 //# sourceMappingURL=sauces.dev.js.map
