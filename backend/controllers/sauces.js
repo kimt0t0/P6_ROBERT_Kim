@@ -93,10 +93,12 @@ exports.likeSauce = (req, res, next) => {
 
 
     else {
+        //Get sauce info (necessary to check if user likes of dislikes this particular sauce):
         Sauce.findOne({_id: req.params.id})
         .then(sauce => {
+            //Delete like:
             if (sauce.usersLiked.includes(req.body.userId)) {
-                Sauce.updateOne({_id: req.params.id}, { //_id considéré comme "undefined" fait planter le code
+                Sauce.updateOne({_id: req.params.id}, { 
                     $inc: {likes: -1},
                     $pull: {usersLiked: req.body.userId},
                     _id: req.params.id
@@ -104,6 +106,7 @@ exports.likeSauce = (req, res, next) => {
                     .then(res.status(200).json({message: "You no longer like this sauce"}))
                     .catch(error => res.status(400).json({error}));
             }
+            //Delete dislike:
             else if (sauce.usersDisliked.includes(req.body.userId)) {
                 Sauce.updateOne({_id: req.params.id}, {
                     $inc: {dislikes: -1},
@@ -117,23 +120,4 @@ exports.likeSauce = (req, res, next) => {
         })
         .catch(error => res.status(400).json({error}));
     }
-
-    /* 
-    Si opinion === "liked"
-    Sauce.updateOne({_id: req.params.id}, {
-        $inc: {likes: -1},
-        $pull: {usersLiked: req.body.userId}
-        })
-        .then(res.status(200).json({message: "You no longer like this sauce"}))
-        .catch(error => res.status(400).json({error}));
-
-    
-    Si opinion === "disliked"
-    Sauce.updateOne({_id: req.params.id}, {
-        $inc: {dislikes: -1},
-        $pull: {usersDisliked: req.body.userId}
-        })
-        .then(res.status(200).json({message: "You no longer like this sauce"}))
-        .catch(error => res.status(400).json({error}));
-    */
 };

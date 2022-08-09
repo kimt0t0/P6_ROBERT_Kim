@@ -4,9 +4,9 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const path = require('path');
 
 const helmet = require('helmet');
-const cors = require('cors');
 
 const userRoutes = require('./routes/user');
 const saucesRoutes = require('./routes/sauces');
@@ -36,10 +36,11 @@ app.use((req, res, next) => {
 
 
 /* ACTIONS */
+app.disable('x-powered-by'); //avoids/limites "finger-print" attacks against express apps using helmet
 app.use(helmet({ crossOriginResourcePolicy: { policy: "cross-origin" } }));
 app.use(bodyParser.json());
 
-app.use('/images', express.static(__dirname +  'images')); //chemin statique pour les images
+app.use('/images', express.static(path.join(__dirname +  'images'))); //chemin statique pour les images
 app.use('/api/auth', userRoutes);
 app.use('/api/sauces', saucesRoutes);
 
