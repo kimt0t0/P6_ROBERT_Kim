@@ -36,7 +36,7 @@ app.use((req, res, next) => {
 
 
 /* ACTIONS */
-app.disable('x-powered-by'); //avoids/limites "finger-print" attacks against express apps using helmet
+app.disable('x-powered-by'); //avoids/limits "finger-print" attacks against express apps using helmet
 app.use(helmet({ crossOriginResourcePolicy: { policy: "cross-origin" } }));
 app.use(bodyParser.json());
 
