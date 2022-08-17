@@ -1,5 +1,5 @@
-/* *** MIDDLEWARE D'AUTHENTIFICATION *** */
-//sert à vérifier que l'utilisateur est connecté et transmettre les infos de connexion lors des requêtes
+/* *** AUTHENTIFICATION MIDDLEWARE *** */
+//allows to check if user is authentified and check that requests to server are allowed
 
 /* VARIABLES */
 const jwt = require('jsonwebtoken');

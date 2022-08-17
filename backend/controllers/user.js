@@ -16,7 +16,7 @@ passwordSchema
     .has().digits()
     .has().not().symbols(); // must not have...
 
-/* FONCTIONS */
+/* FUNCTIONS */
 /* Sign-Up */
 exports.signup = (req, res, next) => {
     if (!emailValidator.validate(req.body.email) || !passwordSchema.validate(req.body.password)) {

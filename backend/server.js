@@ -1,16 +1,17 @@
-/* *** ECRITURE DU SERVEUR ET APPEL DE L'APP *** */
+/* *** SERVER *** */
 
 /* VARIABLES */
 
-// Importation de http et de l'app
+//Import http, app and dotenv
 const http = require('http');
 const app = require('./app');
-const dotenv = require('dotenv').config(); // nécessaire pour faire fonctionner serveur node, doc ici: https://www.freecodecamp.org/news/how-to-use-node-environment-variables-with-a-dotenv-file-for-node-js-and-npm/
+const dotenv = require('dotenv').config(); 
+//node server doesn't work without dotenv, see doc here: https://www.freecodecamp.org/news/how-to-use-node-environment-variables-with-a-dotenv-file-for-node-js-and-npm/
 
 
 /* FONCTIONS */
 
-// Obtention d'un port valide:
+//To get a valid port:
 const normalizePort = val => {
     const port = parseInt(val, 10);
 
@@ -23,7 +24,7 @@ const normalizePort = val => {
     return false;
 };
 
-// Gestion des erreurs:
+//Errors handling:
 const errorHandler = error => {
     if (error.syscall !== 'listen') {
         throw error;
@@ -45,11 +46,13 @@ const errorHandler = error => {
 };
 
 /* ACTIONS */
-// Obtention du port:
+//Get port:
 const port = normalizePort(process.env.PORT || '3000');
-// Démarrage appli:
+
+//Start app:
 app.set('port', port);
-// Création serveur:
+
+//Create server and turn on:
 const server = http.createServer(app);
 
 server.on('error', errorHandler);
@@ -59,4 +62,5 @@ server.on('listening', () => {
     console.log('Listening on ' + bind);
 });
 
+//Listen to port:
 server.listen(port);

@@ -1,4 +1,4 @@
-/* *** MODÈLE SAUCE *** */
+/* *** SAUCE MODEL *** */
 
 const mongoose = require('mongoose');
 

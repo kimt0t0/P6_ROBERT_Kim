@@ -44,8 +44,8 @@ exports.modifySauce = (req, res, next) => {
 exports.deleteSauce = (req, res, next) => {
     Sauce.findOne({_id: req.params.id})
     .then(sauce => {
-        const filename = sauce.imageUrl.split('/images')[1]; //récupération adresse image
-        fs.unlink(`images/${filename}`, () => { //suppression image du serveur
+        const filename = sauce.imageUrl.split('/images')[1]; //get image address
+        fs.unlink(`images/${filename}`, () => { //delete image from server
         Sauce.deleteOne({_id: req.params.id})
         .then(() => res.status(200).json({message: 'Sauce deleted!'}))
         .catch(error => res.status(400).json({error}))
@@ -70,13 +70,15 @@ exports.getOneSauce = (req, res, next) => {
  /* Like sauce: */
 exports.likeSauce = (req, res, next) => {
     const like = req.body.like;
-    //Add like:
+    
+    //Check if not too many likes / dislikes per user:
     if (like > 1) {
         alert("Attention, vous avez tenté d'ajouter plusieurs likes sur cette sauce!\nCette opération n'est pas autorisée.");
     }
     else if (like < -1) {
         alert("Attention, vous avez tenté d'ajouter plusieurs dislikes sur cette sauce!\nCette opération n'est pas autorisée.");
     }
+    //Add like:
     else if (like === 1) {
         Sauce.updateOne({_id: req.params.id}, {
             $inc: {likes: 1},
@@ -122,7 +124,7 @@ exports.likeSauce = (req, res, next) => {
                     .then(res.status(200).json({message: "You no longer like this sauce"}))
                     .catch(error => res.status(400).json({error}));
             }
-            else {console.log("There is a problem with this functionality")}
+            else {console.log("There is a problem with the likes/dislikes section. See in controllers > sauces.")}
         })
         .catch(error => res.status(400).json({error}));
     }

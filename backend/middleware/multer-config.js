@@ -1,5 +1,5 @@
-/* *** CONFIGURATION MULTER *** */
-// package installé qui permettra d'enregistrer sur le serveur des images envoyées par les utilisateurs
+/* *** MULTER CONFIG *** */
+//multer package - saves images sent by users to server in backend repository 'images'
 
 const multer = require('multer');
 
@@ -10,14 +10,15 @@ const MIME_TYPES = {
 };
 
 const storage = multer.diskStorage({
-    destination: (req, file, callback) => { // indique à multer où enregistrer les fichiers
+    destination: (req, file, callback) => { //indicates where the images should be saved
         callback(null, 'images');
     },
-    filename: (req, file, callback) => { // indique à multer d'utiliser le nom d'origine en remplaçant les ' ' par _
+    filename: (req, file, callback) => { //use the original name but replace ' ' by '_'
         const name = file.originalname.split(' ').join('_').replace('.jpg', '');
-        const extension = MIME_TYPES[file.mimetype]; // utilise le dictionnaire de type MIME pour résoudre l'extension appropriée
-        callback(null, name + Date.now() + '.' + extension); // et d'ajouter un timestamp
+        const extension = MIME_TYPES[file.mimetype]; //use type MIME dictionary to get the correct file extension
+        callback(null, name + Date.now() + '.' + extension); //add a timestamp
     }
 });
 
-module.exports = multer({storage: storage}).single('image'); // exporte l'élément multer configuré en lui passant la constante storage, en indiquant qu'on gère les dl de fichiers image
+module.exports = multer({storage: storage}).single('image'); 
+//export our multer element with the storage constant + specifies that it has to dl image files
