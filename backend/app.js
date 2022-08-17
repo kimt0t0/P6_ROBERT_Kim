@@ -40,7 +40,7 @@ app.disable('x-powered-by'); //avoids/limits "finger-print" attacks against expr
 app.use(helmet({ crossOriginResourcePolicy: { policy: "cross-origin" } }));
 app.use(bodyParser.json());
 
-app.use('/images', express.static(path.join(__dirname +  'images'))); //chemin statique pour les images
+app.use('/images', express.static(path.join(__dirname +  '//images'))); //chemin statique pour les images
 app.use('/api/auth', userRoutes);
 app.use('/api/sauces', saucesRoutes);
 

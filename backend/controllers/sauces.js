@@ -71,7 +71,13 @@ exports.getOneSauce = (req, res, next) => {
 exports.likeSauce = (req, res, next) => {
     const like = req.body.like;
     //Add like:
-    if (like === 1) {
+    if (like > 1) {
+        alert("Attention, vous avez tenté d'ajouter plusieurs likes sur cette sauce!\nCette opération n'est pas autorisée.");
+    }
+    else if (like < -1) {
+        alert("Attention, vous avez tenté d'ajouter plusieurs dislikes sur cette sauce!\nCette opération n'est pas autorisée.");
+    }
+    else if (like === 1) {
         Sauce.updateOne({_id: req.params.id}, {
             $inc: {likes: 1},
             $push: {usersLiked: req.body.userId},
