@@ -36,7 +36,7 @@ app.use((req, res, next) => {
 
 /* ACTIONS */
 app.disable('x-powered-by'); //avoids/limits "finger-print" attacks against express apps using helmet
-app.use(helmet({ crossOriginResourcePolicy: { policy: "cross-origin" } }));
+app.use(helmet());
 app.use(bodyParser.json());
 
 app.use('/images', express.static(path.join(__dirname +  '//images'))); //static path for images
