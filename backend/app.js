@@ -24,6 +24,7 @@ mongoose.connect(`mongodb+srv://${user}:${pass}@cluster0.omuvgnu.mongodb.net/?re
     })
   .then(() => console.log('Connexion à MongoDB réussie !'))
   .catch(() => console.log('Connexion à MongoDB échouée !'));
+  
 
 /* PREVENT CORS ERRORS */
 app.use((req, res, next) => {
@@ -36,7 +37,7 @@ app.use((req, res, next) => {
 
 /* ACTIONS */
 app.disable('x-powered-by'); //avoids/limits "finger-print" attacks against express apps using helmet
-app.use(helmet());
+app.use(helmet({ crossOriginResourcePolicy: { policy: "same-site" } }));
 app.use(bodyParser.json());
 
 app.use('/images', express.static(path.join(__dirname +  '//images'))); //static path for images
